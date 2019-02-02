@@ -1,37 +1,82 @@
-import { Navigation } from "react-native-navigation";
-import { Provider } from 'react-redux'; 
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow
+ */
 
-import AuthScreen from "./src/screens/Auth/Auth";
-import SharePlaceScreen from "./src/screens/SharePlace/SharePlace";
-import FindPlaceScreen from "./src/screens/FindPlace/FindPlace";
-import configureStore from './src/store/configureStore';
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
 
-const store = configureStore();
-
-// Register Screens
-Navigation.registerComponent(
-	"awesome-places.AuthScreen", 
-		() => AuthScreen, 
-		store, 
-		Provider
-		);
-Navigation.registerComponent(
-	"awesome-places.SharePlaceScreen", 
-		() => SharePlaceScreen, 
-		store, 
-		Provider
-		);
-Navigation.registerComponent(
-	"awesome-places.FindPlaceScreen", 
-		() => FindPlaceScreen, 
-		store, 
-		Provider
-		);
-
-// Start a App
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: "awesome-places.AuthScreen",
-    title: "Login"
-  }
+const instructions = Platform.select({
+  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
+  android:
+    'Double tap R on your keyboard to reload,\n' +
+    'Shake or press menu button for dev menu',
 });
+
+type Props = {};
+export default class App extends Component<Props> {
+  state = {
+    placeName: ''
+  }
+
+  placeNameChangedHander = val => {
+    this.setState({
+        placeName: val
+    })
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+        <TextInput 
+            placeholder="An awesome place"
+            value={this.state.placeName} 
+            onChangeText={this.placeNameChangedHander}
+            style={styles.placeInput}
+          />
+          <Button title="Add" style={styles.placeButton} />
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  inputContainer: {
+   // flex: 1,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  placeInput: {
+    width: "70%"
+  },
+  placeButton: {
+    width: "30%"
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
+
+
+// control M
