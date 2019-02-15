@@ -32,7 +32,9 @@ export default class App extends Component<Props> {
         places: prevState.places.concat({
           key: Math.random(),
           name: placeName,
-          image: placeImage 
+          image:  {
+            uri: "https://ds2.cityrealty.com/img/dd9502925c8b088085f3f615a9ea02d82daa87e1+736++0+60/walker-tower-212-west-18th-street-03.jpg"
+          }
         })
       };
     });
