@@ -1,98 +1,63 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import { Navigation } from "react-native-navigation";
+import { Provider } from "react-redux";
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
+import AuthScreen from "./src/screens/Auth/Auth";
+import SharePlaceScreen from "./src/screens/SharePlace/SharePlace";
+import FindPlaceScreen from "./src/screens/FindPlace/FindPlace";
+import PlaceDetailScreen from "./src/screens/PlaceDetail/PlaceDetail";
+import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
+import configureStore from "./src/store/configureStore";
 
-import PlaceInput from "./src/components/PlaceInput/PlaceInput";
-import PlaceList from "./src/components/PlaceList/PlaceList";
-import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
+const store = configureStore();
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+// Register Screens
+Navigation.registerComponent(
+  "awesome-places.AuthScreen",
+  () => AuthScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  "awesome-places.SharePlaceScreen",
+  () => SharePlaceScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  "awesome-places.FindPlaceScreen",
+  () => FindPlaceScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  "awesome-places.PlaceDetailScreen",
+  () => PlaceDetailScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  "awesome-places.SideDrawer",
+  () => SideDrawer
+);
 
-type Props = {};
-export default class App extends Component<Props> {
-  state = {
-    places: [],
-    selectedPlace: null
-  };
-  placeAddedHandler = placeName => {
-    this.setState(prevState => {
-      return {
-        places: prevState.places.concat({
-          key: Math.random(),
-          name: placeName,
-          image:  {
-            uri: "https://ds2.cityrealty.com/img/dd9502925c8b088085f3f615a9ea02d82daa87e1+736++0+60/walker-tower-212-west-18th-street-03.jpg"
-          }
-        })
-      };
-    });
-  };
-
-  placeDeletedHandler = () => {
-  this.setState(prevState => {
-      return {
-        places: prevState.places.filter(place => {
-          return place.key !== prevState.selectedPlace.key;
-        }),
-        selectedPlace: null
-      };
-    });
-  }
-
-  modalClosedHandler = () => {
-    this.setState({
-      selectedPlace: null
-    });
-  }
-
-  placeSelectedHandler = key => {
-    this.setState(prevState => {
-      return {
-        selectedPlace: prevState.places.find(place => {
-          return place.key === key;
-        })
-      };
-    });
-    
-  };
-  render() {
-    return (
-      <View style={styles.container}>
-      <PlaceDetail 
-          selectedPlace={this.state.selectedPlace} 
-          onItemDeleted={this.placeDeletedHandler} 
-          onModalClosed={this.modalClosedHandler}
-        />
-        <PlaceInput onPlaceAdded={this.placeAddedHandler} />
-        <PlaceList 
-          places={this.state.places}
-          onItemSelected={this.placeSelectedHandler} 
-        />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 26,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-start"
+// Start a App
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: "awesome-places.AuthScreen",
+    title: "Login"
   }
 });
 
-// control M
+
+
+// npm install --save redux react-redux
+// react-native run-android
+// react native debugger
+// https://github.com/jhen0409/react-native-debugger
+// reduxDevTools Integration
+// https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md
+// https://github.com/wix/react-native-navigation/blob/v1/docs/installation-ios.md
+// https://stackoverflow.com/questions/35215461/error-in-cannot-find-module-babel-core-using-react-js-webpack-and-express-s
+// https://wix.github.io/react-native-navigation/#/docs/top-level-api-migration?id=starttabbasedappparams-setrootbottomtabs
+// https://github.com/vhpoet/react-native-styling-cheat-sheet
+// https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
